@@ -27,7 +27,20 @@ func NewRedigoStore(pool *redis.Pool) RedigoStore {
 	conn := pool.Get()
 	defer conn.Close()
 
-	var script = redis.NewScript(1, getScript())
+	var script = redis.NewScript(1, tokenBucketScript)
+	err := script.Load(conn)
+	if err != nil {
+		panic(err)
+	}
+	return RedigoStore{pool: pool, script: script}
+}
+
+func NewRedigoSWStore(pool *redis.Pool) RedigoStore {
+	// we will initialise with the script
+	conn := pool.Get()
+	defer conn.Close()
+
+	var script = redis.NewScript(1, slidingWindowScript)
 	err := script.Load(conn)
 	if err != nil {
 		panic(err)
