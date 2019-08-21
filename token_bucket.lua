@@ -2,7 +2,7 @@ local key = KEYS[1]
 local rate = tonumber(ARGV[1])
 local window = tonumber(ARGV[2])
 local now = tonumber(ARGV[3])
-local default_expiry = window * 5
+local default_expiry = math.floor(window/1000 * 3)
 
 -- https://stackoverflow.com/a/1252776
 local function is_empty(table)
@@ -28,7 +28,7 @@ local value = hgetall(key)
 
 local function set(ts, counter)
     redis.call("HMSET", key, "ts", now, "c", counter)
-    -- redis.call("EXPIRE", key, default_expiry)
+    redis.call("EXPIRE", key, default_expiry)
     return {"ts", ts, "c", counter, "s", 1}
 end
 

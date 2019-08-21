@@ -26,7 +26,7 @@ type StoreResponse struct {
 	LastRefill time.Time
 }
 
-// The Redis algorithm
+// The token bucket algorithm
 // given a key like `user-post:avinassh`, rate
 // if the doesn't exist then allow, refill and allow
 // if key exists
