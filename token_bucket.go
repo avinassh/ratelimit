@@ -48,7 +48,7 @@ func (b *Bucket) Allow(key string) (bool, error) {
 
 func (b *Bucket) AllowWithStatus(key string) (Status, error) {
 	userKey := fmt.Sprintf("%s:%s", b.identifier, key)
-	res, err := b.store.Inc(userKey, b.rate, b.windowSize, int(timeNow().UnixMilli()))
+	res, err := b.store.Inc(userKey, b.rate, b.windowSize, int(TimeMillis(timeNow())))
 	if err != nil {
 		return Status{}, err
 	}

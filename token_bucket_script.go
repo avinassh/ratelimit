@@ -1,7 +1,7 @@
 package ratelimit
 
 import (
-	"io"
+	io "io/ioutil"
 	"os"
 )
 

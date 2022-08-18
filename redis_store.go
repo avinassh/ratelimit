@@ -56,10 +56,18 @@ func buildStoreResponse(result map[string]int, err error) (StoreResponse, error)
 	}
 	response := StoreResponse{
 		Counter:    result["c"],
-		LastRefill: time.UnixMilli(int64(result["ts"])),
+		LastRefill: MillisToTime(int64(result["ts"])),
 	}
 	if result["s"] == 1 {
 		response.Allowed = true
 	}
 	return response, nil
+}
+
+func TimeMillis(t time.Time) int64 {
+	return t.UnixNano() / int64(time.Millisecond)
+}
+
+func MillisToTime(m int64) time.Time {
+	return time.Unix(0, m*int64(time.Millisecond))
 }
